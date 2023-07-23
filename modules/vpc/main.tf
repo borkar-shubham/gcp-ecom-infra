@@ -1,40 +1,40 @@
 resource "google_compute_network" "ecom-vpc_network" {
-  name                    = "vpc-ecom"
-  project                 = "my-project-name"
+  name                    = var.vpc_name
+  project                 = var.project_name
   auto_create_subnetworks = false
 }
 
 #Public Subnet
 resource "google_compute_subnetwork" "public_subnet" {
-  name          = "subnet-ecom-public"
-  ip_cidr_range = "198.168.1.0/24"
-  region        = "us-central1"
-  network       = google_compute_network.vpc_network.id
+  name          = var.public_subnet_name
+  ip_cidr_range = var.ip_cidr_range[0]
+  region        = var.region
+  network       = google_compute_network.ecom-vpc_network.id
 }
 
 #Priivaate Subnet
 resource "google_compute_subnetwork" "private_subnet" {
-  name          = "subnet-ecom-private"
-  ip_cidr_range = "198.168.2.0/24"
-  region        = "us-central1"
-  network       = google_compute_network.vpc_network.id
-  private_ip_google_access = true
+  name          = var.private_subnet_name
+  ip_cidr_range = var.ip_cidr_range[1]
+  region        = var.region
+  network       = google_compute_network.ecom-vpc_network.id
+  private_ip_google_access = var.private_ip_google_access
 }
 
 resource "google_compute_firewall" "gcp-ecom-firewall" {
-  name    = "test-firewall"
+  name    = var.firewall_name
   network = google_compute_network.ecom-vpc_network.name
 
   allow {
-    protocol = "icmp"
+    protocol = var.protocols[0]
   }
 
   allow {
-    protocol = "tcp"
-    ports    = ["80", "8080", "1000-2000"]
+    protocol = var.protocols[1]
+    ports    = var.ports
   }
 
-  source_tags = ["web"]
+  source_tags = var.source_tags
 }
 
 # #Cloud Router
