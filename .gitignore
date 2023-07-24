@@ -1,4 +1,11 @@
-.terraform*
-.tfstate*
+.terraform
+.tfstate
 .hcl
 terraform*
+.tfplan
+.pem
+.tfvars
+.tfstate.backup
+.lock.info
+.tmp
+.DS_Store

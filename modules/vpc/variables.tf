@@ -3,9 +3,19 @@ variable "project_name" {
   default = "gcp-ecom"
 }
 
-variable "vpc_name" {
+variable "target_env" {
   type = string
-  default = "ecom-vpc"
+  default = "DEV"
+}
+
+variable "environment_map" {
+  type = map(string)
+  default = {
+    "DEV" = "dev",
+    "QA" = "qa",
+    "STAGE" = "stage",
+    "PROD" = "prod"
+  }
 }
 
 variable "region" {
@@ -13,29 +23,19 @@ variable "region" {
   default = "us-central1"
 }
 
-variable "ip_cidr_range" {
-  type = list(string)
-  default = [ "198.168.1.0/24", "198.168.2.0/24" ]
+variable "pub_ip_cidr_range" {
+  type = string
+  default = "198.168.1.0/24"
 }
 
-variable "public_subnet_name" {
+variable "pvt_ip_cidr_range" {
   type = string
-  default = "subnet-ecom-public"
-}
-
-variable "private_subnet_name" {
-  type = string
-  default = "subnet-ecom-private"
+  default = "198.168.2.0/24"
 }
 
 variable "private_ip_google_access" {
   type = bool
   default = true
-}
-
-variable "firewall_name" {
-  type = string
-  default = "ecom-firewall"
 }
 
 variable "protocols" {
