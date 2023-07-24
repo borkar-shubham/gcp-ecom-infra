@@ -1,5 +1,5 @@
 module "vpc_network" {
-  source = "./modules/vpc"
+  source = "https://github.com/borkar-shubham/Terraform/tree/main/gcp/modules/vpc"
   project_name = var.project_name
 }
 
